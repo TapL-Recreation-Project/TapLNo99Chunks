@@ -1,0 +1,5 @@
+name: TaplNo99Chunks
+version: 1.0
+main: dev.barfuzzle99.taplno99chunks.taplno99chunks.TaplNo99Chunks
+api-version: 1.16
+load: STARTUP
