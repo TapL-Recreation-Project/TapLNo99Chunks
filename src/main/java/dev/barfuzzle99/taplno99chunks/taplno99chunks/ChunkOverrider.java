@@ -154,12 +154,14 @@ public class ChunkOverrider extends ChunkGenerator {
     @Override
     public void createStructures(IRegistryCustom iregistrycustom, StructureManager structuremanager,
                                  IChunkAccess ichunkaccess, DefinedStructureManager definedstructuremanager, long i) {
+        if (!shouldGenerateChunk(ichunkaccess)) return;
         parent.createStructures(iregistrycustom, structuremanager, ichunkaccess, definedstructuremanager, i);
     }
 
     @Override
     public void storeStructures(GeneratorAccessSeed generatoraccessseed, StructureManager structuremanager,
                                 IChunkAccess ichunkaccess) {
+        if (!shouldGenerateChunk(ichunkaccess)) return;
         parent.storeStructures(generatoraccessseed, structuremanager, ichunkaccess);
     }
 }
