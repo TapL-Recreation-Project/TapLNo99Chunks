@@ -15,14 +15,16 @@ import net.minecraft.server.v1_16_R3.PlayerChunkMap;
 public class WorldListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onWorldInit(WorldInitEvent event){
-        inject(event.getWorld());
+        if (event.getWorld().getName().contains("no99chunks")) {
+            inject(event.getWorld());
+        }
     }
 
-    private void inject(World bukkitWorld) {
-        final CraftWorld world = (CraftWorld) bukkitWorld;
+    private void inject(World world) {
+        final CraftWorld craftWorld = (CraftWorld) world;
         try {
             @SuppressWarnings("resource")
-            final PlayerChunkMap playerChunkMap = world.getHandle().getChunkProvider().playerChunkMap;
+            final PlayerChunkMap playerChunkMap = craftWorld.getHandle().getChunkProvider().playerChunkMap;
             final Field ChunkGeneratorField = PlayerChunkMap.class.getDeclaredField("chunkGenerator");
             ChunkGeneratorField.setAccessible(true);
             final Object chunkGeneratorObject = ChunkGeneratorField.get(playerChunkMap);
@@ -31,7 +33,7 @@ public class WorldListener implements Listener {
             ChunkGeneratorField.set(playerChunkMap, overrider);
         } catch (Exception ex) {
             ex.printStackTrace();
-            throw new RuntimeException("Error injecting to world " + world.getName());
+            throw new RuntimeException("Error injecting to world " + craftWorld.getName());
         }
     }
 }
