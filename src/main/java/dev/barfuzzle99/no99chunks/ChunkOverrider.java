@@ -1,4 +1,4 @@
-package dev.barfuzzle99.taplno99chunks.taplno99chunks;
+package dev.barfuzzle99.no99chunks;
 
 /*
  *  Credits to DerFrZocker (https://www.spigotmc.org/members/derfrzocker.555696/)

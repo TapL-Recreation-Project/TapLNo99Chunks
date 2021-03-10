@@ -1,9 +1,9 @@
-name: TaplNo99Chunks
+name: No99Chunks
 version: 1.0
-main: dev.barfuzzle99.taplno99chunks.taplno99chunks.TaplNo99Chunks
+main: dev.barfuzzle99.no99chunks.No99Chunks
 api-version: 1.16
 load: STARTUP
 
 commands:
-  taplno99chunks:
+  no99chunks:
     description: Main command

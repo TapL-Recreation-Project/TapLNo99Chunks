@@ -1,4 +1,4 @@
-package dev.barfuzzle99.taplno99chunks.taplno99chunks;
+package dev.barfuzzle99.no99chunks;
 
 import java.lang.reflect.Field;
 
@@ -13,6 +13,7 @@ import net.minecraft.server.v1_16_R3.ChunkGenerator;
 import net.minecraft.server.v1_16_R3.PlayerChunkMap;
 
 public class WorldListener implements Listener {
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onWorldInit(WorldInitEvent event){
         if (event.getWorld().getName().contains("no99chunks")) {
