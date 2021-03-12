@@ -12,7 +12,7 @@ import org.bukkit.event.world.WorldInitEvent;
 import net.minecraft.server.v1_16_R3.ChunkGenerator;
 import net.minecraft.server.v1_16_R3.PlayerChunkMap;
 
-public class WorldListener implements Listener {
+public class WorldInitListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onWorldInit(WorldInitEvent event){
