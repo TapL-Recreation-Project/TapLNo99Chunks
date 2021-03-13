@@ -63,7 +63,12 @@ public class CmdNo99Chunks implements TabExecutor {
                     return false;
                 } else {
                     ConfigUtil.savePlayerLastNormalWorldLoc(player, player.getLocation());
-                    player.teleport(no99chunksworld.getSpawnLocation());
+                    Location lastNo99WorldLoc = ConfigUtil.getPlayerLastNo99WorldLoc(player);
+                    if (lastNo99WorldLoc != null && lastNo99WorldLoc.getWorld() != null) {
+                        player.teleport(lastNo99WorldLoc);
+                    } else {
+                        player.teleport(no99chunksworld.getSpawnLocation());
+                    }
                 }
             }
         }
@@ -85,7 +90,7 @@ public class CmdNo99Chunks implements TabExecutor {
             case 2: // no99chunks create confirm OR no99chunks create seed
                 if (args[1].equals("confirm")) {
                     // no99chunks create confirm
-                    sender.sendMessage(prefix + ChatColor.GREEN + "World creation started");
+                    sender.sendMessage(prefix + ChatColor.GREEN + " World creation started");
                     No99Chunks.getWorldManager().createNo99ChunksWorld();
                 } else {
                     // no99chunks create seed
@@ -97,7 +102,7 @@ public class CmdNo99Chunks implements TabExecutor {
             case 3: // no99chunks create seed confirm
                 String seed = args[1];
                 if (args[2].equals("confirm")) {
-                    sender.sendMessage(prefix + ChatColor.GREEN + "World creation started");
+                    sender.sendMessage(prefix + ChatColor.GREEN + " World creation started");
                     No99Chunks.getWorldManager().createNo99ChunksWorld(seed);
                 } else {
                     sender.sendMessage(prefix + " " + invalidUsageMsg);
@@ -117,20 +122,20 @@ public class CmdNo99Chunks implements TabExecutor {
         Player player = (Player) sender;
 
         if (args.length == 1) {
+            ConfigUtil.savePlayerLastNo99WorldLoc(player, player.getLocation());
             Location loc = ConfigUtil.getPlayerLastNormalWorldLoc(player);
             if (loc == null) {
-                No99Chunks.getInstance().getLogger().log(Level.SEVERE, "Could not get last location in normal world for " + player +
+                No99Chunks.getInstance().getLogger().log(Level.SEVERE, "Could not get last location in normal world for " + player.getName() +
                         ". They'll be teleported to the main world. Is " + No99Chunks.getPlayerLastLocationsYml().getFile().getName() + " damaged?");
                 player.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
                 return false;
             }
             if (loc.getWorld() == null) {
-                No99Chunks.getInstance().getLogger().log(Level.WARNING, "Player " + player +
+                No99Chunks.getInstance().getLogger().log(Level.WARNING, "Player " + player.getName() +
                         " was in world that doesn't exist. Was it renamed or deleted?");
                 player.teleport(Bukkit.getServer().getWorlds().get(0).getSpawnLocation());
                 return false;
             }
-            ConfigUtil.savePlayerLastNo99WorldLoc(player, player.getLocation());
             player.teleport(loc);
         } else {
             sender.sendMessage(prefix + " " + invalidUsageMsg);
@@ -144,8 +149,9 @@ public class CmdNo99Chunks implements TabExecutor {
         switch (args.length) {
             case 1:
                 suggestions.add("create");
-                suggestions.add("teleport");
+                suggestions.add("join");
                 suggestions.add("help");
+                suggestions.add("leave");
                 break;
             case 2:
                 if (args[0].equals("create")) {

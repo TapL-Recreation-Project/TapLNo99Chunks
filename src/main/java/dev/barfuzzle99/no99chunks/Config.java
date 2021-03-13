@@ -31,6 +31,9 @@ public class Config {
 
         public void createFile() {
             try {
+                if (this.configFile.getParentFile() != null && !this.configFile.getParentFile().exists()) {
+                    this.configFile.getParentFile().mkdirs();
+                }
                 this.configFile.createNewFile();
             } catch (IOException ex) {
                 pluginInstance.getLogger().log(Level.SEVERE, "Could not create file " + configFile.getName());

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 
 public class ConfigUtil {
+    @Nullable
     public static List<String> stringListFromLocation(Location loc) {
         if (loc == null) {
             return null;
@@ -32,9 +33,9 @@ public class ConfigUtil {
             double[] coords = new double[3];
             String worldName;
             coords[0] = Double.parseDouble(strList.get(0));
-            coords[1] = Double.parseDouble(strList.get(0));
-            coords[2] = Double.parseDouble(strList.get(0));
-            worldName = strList.get(0);
+            coords[1] = Double.parseDouble(strList.get(1));
+            coords[2] = Double.parseDouble(strList.get(2));
+            worldName = strList.get(3);
             World world = Bukkit.getWorld(worldName);
             return new Location(Bukkit.getWorld(worldName), coords[0], coords[1], coords[2]);
         } catch (NumberFormatException ex) {
@@ -46,12 +47,12 @@ public class ConfigUtil {
     }
 
     public static void savePlayerLastNo99WorldLoc(Player player, Location loc) {
-        No99Chunks.getPlayerLastLocationsYml().yamlConfig().set(player.getName() + "lastNo99WorldPos", stringListFromLocation(loc));
+        No99Chunks.getPlayerLastLocationsYml().yamlConfig().set(player.getName() + ".lastNo99WorldPos", stringListFromLocation(loc));
         No99Chunks.getPlayerLastLocationsYml().saveChanges();
     }
 
     public static void savePlayerLastNormalWorldLoc(Player player, Location loc) {
-        No99Chunks.getPlayerLastLocationsYml().yamlConfig().set(player.getName() + "lastNormalWorldPos", stringListFromLocation(loc));
+        No99Chunks.getPlayerLastLocationsYml().yamlConfig().set(player.getName() + ".lastNormalWorldPos", stringListFromLocation(loc));
         No99Chunks.getPlayerLastLocationsYml().saveChanges();
     }
 

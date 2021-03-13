@@ -3,6 +3,7 @@ package dev.barfuzzle99.no99chunks;
 import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.Blocks;
 import org.bukkit.Bukkit;
+import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.CommandSender;
@@ -80,7 +81,7 @@ public class LazySpawnChunksEraser extends BukkitRunnable {
         net.minecraft.server.v1_16_R3.World nmsWorld = ((CraftWorld) world).getHandle();
         for (int x = blockX; x < blockX + CHUNK_WIDTH; x ++) {
             for (int z = blockZ; z < blockZ + CHUNK_WIDTH; z ++) {
-                int yTop = world.getHighestBlockYAt(x, z, org.bukkit.HeightMap.WORLD_SURFACE);
+                int yTop = world.getHighestBlockYAt(x, z, HeightMap.OCEAN_FLOOR);
                 for (int y = 0; y <= yTop; y++) {
                     nmsSetToAir(nmsWorld, new BlockPosition(x, y, z));
                     cleanedBlocks++;
