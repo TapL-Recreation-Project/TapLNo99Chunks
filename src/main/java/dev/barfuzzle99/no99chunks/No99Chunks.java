@@ -16,7 +16,6 @@ public final class No99Chunks extends JavaPlugin {
         initConfig();
         registerListeners();
         registerCommands();
-        worldManager.updateNo99ChunksWorldList();
     }
 
     public void initConfig() {

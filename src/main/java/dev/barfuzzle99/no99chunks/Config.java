@@ -50,7 +50,7 @@ public class Config {
             }
         }
 
-        private void loadYamlFromFile() {
+        public void loadYamlFromFile() {
             this.yamlConfig = new YamlConfiguration();
             try {
                 this.yamlConfig.load(this.configFile);
