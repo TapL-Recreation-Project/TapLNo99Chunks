@@ -2,7 +2,6 @@ package dev.barfuzzle99.no99chunks;
 
 import net.minecraft.server.v1_16_R3.BlockPosition;
 import net.minecraft.server.v1_16_R3.Blocks;
-import org.bukkit.Bukkit;
 import org.bukkit.HeightMap;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -11,18 +10,12 @@ import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.LinkedList;
-import java.util.logging.Level;
 
 public class LazySpawnChunksEraser extends BukkitRunnable {
     LinkedList<World> worldQueue = new LinkedList<World>();
     LinkedList<ChunkPos> chunkPosQueue = new LinkedList<>();
     CommandSender progressOutSender;
     private boolean finished = false;
-
-    // TODO: allow sending progress to sender
-    public void enqueue(World world) {
-        worldQueue.add(world);
-    }
 
     public LazySpawnChunksEraser(CommandSender progressOutSender) {
         this.progressOutSender = progressOutSender;
@@ -34,35 +27,28 @@ public class LazySpawnChunksEraser extends BukkitRunnable {
             processQueue();
         } else {
             No99Chunks.getWorldManager().setIsBusy(false);
-            progressOutSender.sendMessage("Finished world creation! Don't forget to import them to your Multi-world management plugin, if you have one.");
+            progressOutSender.sendMessage("Finished world creation! Don't forget to import them to your Multi-world management plugin, if you have one, and configure per-world inventories in your inventory management plugin if you have one");
             this.cancel();
         }
+    }
+
+    public void enqueue(World world) {
+        worldQueue.add(world);
     }
 
     public void processQueue() {
         if (worldQueue.isEmpty()) {
             this.finished = true;
-            Bukkit.getLogger().log(Level.INFO, String.format("World queue is empty, exiting"));
             return;
         }
         if (chunkPosQueue.isEmpty()) {
-            Bukkit.getLogger().log(Level.INFO, String.format("Chunk queue is empty, making a new one"));
             buildChunkQueue();
         } else {
             setChunkToAir(worldQueue.peek(), chunkPosQueue.peek());
-            ChunkPos lastCleanedChunk = chunkPosQueue.peek();
-            int spawnX = worldQueue.peek().getSpawnLocation().getBlockX();
-            int spawnZ = worldQueue.peek().getSpawnLocation().getBlockZ();
-            Bukkit.getLogger().log(Level.INFO, String.format("Cleaned chunk (%d, %d) of ''%s'', spawn chunk is (%d, %d)",
-                    lastCleanedChunk.x, lastCleanedChunk.z, worldQueue.peek().getName(), spawnX >> 4, spawnZ >> 4));
             chunkPosQueue.poll();
             if (chunkPosQueue.isEmpty()) {
-                Bukkit.getLogger().log(Level.INFO, String.format("Chunk queue ran out, going to remove world %s from queue", worldQueue.peek().getName()));
                 worldQueue.poll();
                 progressOutSender.sendMessage((3 - worldQueue.size()) + "/3 worlds created...");
-                if (!worldQueue.isEmpty()) {
-                    Bukkit.getLogger().log(Level.INFO, String.format("World %s is now the head of the queue", worldQueue.peek().getName()));
-                }
             }
         }
     }
@@ -80,7 +66,6 @@ public class LazySpawnChunksEraser extends BukkitRunnable {
         }
     }
 
-    int cleanedBlocks = 0;
     public void setChunkToAir(World world, ChunkPos chunkLoc) {
         int blockX = chunkLoc.x * 16;
         int blockZ = chunkLoc.z * 16;
@@ -92,10 +77,6 @@ public class LazySpawnChunksEraser extends BukkitRunnable {
                 int yTop = world.getHighestBlockYAt(x, z, HeightMap.WORLD_SURFACE);
                 for (int y = 0; y <= yTop; y++) {
                     nmsSetToAir(nmsWorld, new BlockPosition(x, y, z));
-                    cleanedBlocks++;
-                    if (cleanedBlocks % 50000 == 0) {
-                        Bukkit.getLogger().log(Level.INFO, String.format("cleaned %d blocks", cleanedBlocks));
-                    }
                 }
             }
         }
