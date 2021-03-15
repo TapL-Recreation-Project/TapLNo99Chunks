@@ -93,7 +93,7 @@ public class CmdNo99Chunks implements TabExecutor {
             return false;
         }
         if (WorldManager.getNo99ChunksWorlds().size() > 0) {
-            sender.sendMessage(prefix + ChatColor.YELLOW + "You've already created worlds without 99% of the chunks!");
+            sender.sendMessage(prefix + ChatColor.YELLOW + " You've already created worlds without 99% of the chunks!");
             return false;
         }
         switch (args.length) {
