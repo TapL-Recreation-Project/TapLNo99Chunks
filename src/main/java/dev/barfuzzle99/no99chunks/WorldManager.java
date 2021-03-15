@@ -32,15 +32,31 @@ public class WorldManager {
         }
     }
 
+    private static long getVanillaSeedFromString(String seedStr) {
+        if (seedStr.length() >= 20) {
+            return seedStr.hashCode();
+        }
+        try {
+            long seedLong = Long.parseLong(seedStr);
+            if (seedStr.equals(Long.toString(seedLong))) {
+                return seedLong;
+            } else {
+                return seedStr.hashCode();
+            }
+        } catch (NumberFormatException ex) {
+            return seedStr.hashCode();
+        }
+    }
+
     public void createNo99ChunksWorld(CommandSender sender) {
-        createNo99ChunksWorld(sender, rng.nextInt());
+        createNo99ChunksWorld(sender, rng.nextLong());
     }
 
     public void createNo99ChunksWorld(CommandSender sender, String seed) {
-        createNo99ChunksWorld(sender, seed.hashCode());
+        createNo99ChunksWorld(sender, getVanillaSeedFromString(seed));
     }
 
-    public void createNo99ChunksWorld(CommandSender sender, int seed) {
+    public void createNo99ChunksWorld(CommandSender sender, long seed) {
         this.setIsBusy(true);
         LazySpawnChunksEraser lazySpawnChunksEraser = new LazySpawnChunksEraser(sender);
 
