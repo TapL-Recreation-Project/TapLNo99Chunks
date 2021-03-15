@@ -116,6 +116,15 @@ public class WorldManager {
         return this.isBusy;
     }
 
+    public static World getNo99ChunksOverworld() {
+        for (World world: getNo99ChunksWorlds()) {
+            if (world.getEnvironment() == World.Environment.NORMAL) {
+                return world;
+            }
+        }
+        return null;
+    }
+
     public  static boolean isNo99ChunksWorld(World world) {
         return world.getName().contains("no99chunks");
     }
