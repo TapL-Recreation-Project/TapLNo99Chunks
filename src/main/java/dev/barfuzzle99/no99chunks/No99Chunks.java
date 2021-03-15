@@ -16,6 +16,7 @@ public final class No99Chunks extends JavaPlugin {
         initConfig();
         registerListeners();
         registerCommands();
+        new Metrics(this, 10671);
     }
 
     public void initConfig() {
