@@ -3,6 +3,8 @@ package dev.barfuzzle99.no99chunks;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.logging.Level;
+
 public final class No99Chunks extends JavaPlugin {
 
     private static No99Chunks instance;
@@ -17,6 +19,10 @@ public final class No99Chunks extends JavaPlugin {
         registerListeners();
         registerCommands();
         new Metrics(this, 10671);
+        if (!isCompatibleWithCurrentNMSVersion()) {
+            this.getLogger().log(Level.SEVERE, "It looks like the plugin is NOT compatible with your current server version. " +
+                    "Please use 1.16.3 - 1.16.5 to ensure compatibility.");
+        }
     }
 
     public void initConfig() {
@@ -52,5 +58,11 @@ public final class No99Chunks extends JavaPlugin {
 
     public static String getPrefix() {
         return "[No99Chunks]";
+    }
+
+    public static boolean isCompatibleWithCurrentNMSVersion() {
+        String ver = Bukkit.getServer().getClass().getPackage().getName();
+        ver = ver.substring(ver.lastIndexOf('.') + 1);
+        return ver.equals("v1_16_R3");
     }
 }

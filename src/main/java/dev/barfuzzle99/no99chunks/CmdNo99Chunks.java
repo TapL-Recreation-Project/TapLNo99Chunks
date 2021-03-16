@@ -88,6 +88,11 @@ public class CmdNo99Chunks implements TabExecutor {
             sender.sendMessage(noPermsMsg);
             return false;
         }
+        if (!No99Chunks.isCompatibleWithCurrentNMSVersion()) {
+            sender.sendMessage(prefix + ChatColor.RED + " It looks like the plugin is NOT compatible with your current server version. " +
+                    "Please use 1.16.3 - 1.16.5 to ensure compatibility. This command will probably not work.");
+        }
+
         if (No99Chunks.getWorldManager().isBusy()) {
             sender.sendMessage(prefix + ChatColor.YELLOW + " the world manager is currently busy doing something, try again later");
             return false;
