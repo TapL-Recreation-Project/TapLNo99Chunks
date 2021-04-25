@@ -30,15 +30,32 @@ public class PortalListener implements Listener {
                 break;
             case NETHER_PORTAL:
                 World nether = Bukkit.getWorld("no99chunks_nether");
+                World overworld = Bukkit.getWorld("no99chunks");
+
                 if (nether == null) {
-                    No99Chunks.getInstance().getLogger().log(Level.SEVERE, "could not find no99chunks_nether, did you rename or delete the world?");
+                    No99Chunks.getInstance().getLogger().log(Level.SEVERE, "could not find world no99chunks_nether, did you rename or delete the world?");
                     return;
                 }
-                Location netherLoc = event.getPlayer().getLocation().clone();
-                netherLoc.setX(netherLoc.getX() / 8);
-                netherLoc.setZ(netherLoc.getZ() / 8);
-                netherLoc.setWorld(nether);
-                event.setTo(netherLoc);
+                if (overworld == null) {
+                    No99Chunks.getInstance().getLogger().log(Level.SEVERE, "could not find world no99chunks, did you rename or delete the world?");
+                    return;
+                }
+
+                // Player coming back from the nether
+                if (event.getPlayer().getWorld().equals(nether)) {
+                    Location overworldLoc = event.getPlayer().getLocation().clone();
+                    overworldLoc.setX(overworldLoc.getX() * 8);
+                    overworldLoc.setZ(overworldLoc.getZ() * 8);
+                    overworldLoc.setWorld(overworld);
+                    event.setTo(overworldLoc);
+                    // Player is going to the nether
+                } else {
+                    Location netherLoc = event.getPlayer().getLocation().clone();
+                    netherLoc.setX(netherLoc.getX() / 8);
+                    netherLoc.setZ(netherLoc.getZ() / 8);
+                    netherLoc.setWorld(nether);
+                    event.setTo(netherLoc);
+                }
                 break;
             default:
                 break;

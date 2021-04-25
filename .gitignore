@@ -31,7 +31,7 @@ hs_err_pid*
 
 *~
 
-# temporary files which can be created if a process still has a handle open of a deleted file
+# temporary files which can be  if a process still has a handle open of a deleted file
 .fuse_hidden*
 
 # KDE directory preferences
@@ -40,7 +40,7 @@ hs_err_pid*
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
 
-# .nfs files are created when an open file is removed but is still being accessed
+# .nfs files are  when an open file is removed but is still being accessed
 .nfs*
 
 # General
@@ -63,7 +63,7 @@ Icon
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
 
-# Directories potentially created on remote AFP share
+# Directories potentially  on remote AFP share
 .AppleDB
 .AppleDesktop
 Network Trash Folder
